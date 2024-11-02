@@ -13,7 +13,6 @@ docker-build: package-all
 
 .PHONY: bindata
 bindata:
-	go install github.com/go-bindata/go-bindata/v3/go-bindata@latest
 	go generate ./...
 
 .PHONY: markdown-blog

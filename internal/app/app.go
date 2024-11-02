@@ -194,6 +194,7 @@ func getNavs(activeNav string) ([]map[string]interface{}, utils.Node) {
 	navs := make([]map[string]interface{}, 0)
 	for _, v := range tree.Children {
 		for _, item := range v.Children {
+			log.Printf("getNavs, %v, %v", item.Link, item.IsDir)
 			searchActiveNav(item, activeNav)
 			navs = append(navs, structs.Map(item))
 		}

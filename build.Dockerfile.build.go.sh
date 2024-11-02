@@ -8,9 +8,9 @@ docker ps -a  | grep my-markdown-blog
 docker build --build-arg CURRENT_TIME="${current_time}"  --tag my-markdown-blog -f Dockerfile.build.go.1 .
 
 
-md_path="/Users/fullname/doc/work/gamestudio/bookmark/docs"
-custom_cmd="/bin/bash"
-custom_cmd="make run"
+export md_path="/Users/fullname/doc/work/gamestudio/bookmark/docs"
+export custom_cmd="/bin/bash"
+export custom_cmd="make run"
 
 
 # --rm 退出后，自动删除容器
