@@ -245,7 +245,8 @@ func articleHandler(ctx iris.Context) {
 		return
 	}
 
-	mdfile := MdDir + "/" + f + ".md"
+	// mdfile := MdDir + "/" + f + ".md"
+	mdfile := MdDir + "/" + f
 
 	_, err := os.Stat(mdfile)
 	if err != nil {
@@ -263,13 +264,25 @@ func articleHandler(ctx iris.Context) {
 	tmp := strings.Split(f, "/")
 	title := tmp[len(tmp)-1]
 	ctx.ViewData("Title", title+" - "+Title)
-	ctx.ViewData("Article", mdToHtml(bytes))
+
+	var ext = filepath.Ext(f)
+	ctx.ViewData("Article", mdToHtml(bytes, ext))
 
 	ctx.View("index.html")
 }
 
-func mdToHtml(content []byte) template.HTML {
-	strs := string(content)
+func mdToHtml(content []byte, ext string) template.HTML {
+	str := string(content)
+
+	if ext != ".md" {
+	} else {
+		str = "```" + ext + "\n" + str + "\n```"
+	}
+
+	return mdToHtml2(str)
+}
+
+func mdToHtml2(strs string) template.HTML {
 
 	var htmlFlags blackfriday.HTMLFlags
 
