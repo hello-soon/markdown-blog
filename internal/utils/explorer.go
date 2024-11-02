@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"io/ioutil"
 	"log"
 	"math/rand"
 	"os"
@@ -81,7 +80,7 @@ func explorerRecursive(node *Node, option *Option) {
 	}
 
 	// 目录中的文件和子目录
-	sub, err := ioutil.ReadDir(node.Path)
+	sub, err := os.ReadDir(node.Path)
 	if err != nil {
 		info := "目录不存在，或打开错误。"
 		log.Printf("%v: %v", info, err)
