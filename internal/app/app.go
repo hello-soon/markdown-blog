@@ -278,7 +278,6 @@ func mdToHtml(content []byte, ext string) template.HTML {
 	str := string(content)
 
 	if ext != ".md" {
-		log.Printf("mdToHtml, %v", ext)
 		str = "```" + ext + "\n" + str + "\n```"
 	}
 
