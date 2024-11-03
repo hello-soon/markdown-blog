@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"os"
 	"path"
+	"sort"
 	"strings"
 )
 
@@ -58,6 +59,18 @@ func Explorer(option Option) (Node, error) {
 	}
 
 	return root, nil
+}
+
+func SortLess(root *Node) {
+	// 排序
+	sort.Slice(root.Children, func(i, j int) bool {
+		return nodeLess(root.Children[i], root.Children[j])
+	})
+}
+
+func nodeLess(a, b *Node) bool {
+	log.Printf("nodeLess, %v, %v", a.Link, b.Link)
+	return a.Link < b.Link
 }
 
 // 递归遍历目录

@@ -193,6 +193,8 @@ func getNavs(activeNav string) ([]map[string]interface{}, utils.Node) {
 
 	navs := make([]map[string]interface{}, 0)
 	for _, v := range tree.Children {
+		//进行排序
+		utils.SortLess(v)
 		for _, item := range v.Children {
 			log.Printf("getNavs, %v, %v", item.Link, item.IsDir)
 			searchActiveNav(item, activeNav)
@@ -276,7 +278,7 @@ func mdToHtml(content []byte, ext string) template.HTML {
 	str := string(content)
 
 	if ext != ".md" {
-	} else {
+		log.Printf("mdToHtml, %v", ext)
 		str = "```" + ext + "\n" + str + "\n```"
 	}
 
