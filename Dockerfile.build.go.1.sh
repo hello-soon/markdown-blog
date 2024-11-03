@@ -2,19 +2,34 @@
 current_time=$(date +"%Y-%m-%d %H:%M:%S")
 echo "当前时间是: [$current_time]"
 
-docker rm $(docker ps -aqf "ancestor=my-markdown-blog")
-docker ps -a  | grep my-markdown-blog
+build_image_name="my-markdown-blog-build"
 
-docker build --build-arg CURRENT_TIME="${current_time}"  --tag my-markdown-blog -f Dockerfile.build.go.1 .
+docker rm $(docker ps -aqf "ancestor=${build_image_name}")
+docker ps -a  | grep ${build_image_name}
 
+result=$(docker build --build-arg CURRENT_TIME="${current_time}"  --tag ${build_image_name} -f Dockerfile.build.go.1 .)
+
+# 检查退出码
+if [ "$result" -ne 0 ]; then
+  echo "build Dockerfile.build.go.1 failed!"
+  exit 1  # 构建失败，退出脚本，退出码为 1
+else
+  echo "build Dockerfile.build.go.1 succeeded!"
+fi
 
 export md_path="/Users/fullname/doc/work/gamestudio/bookmark/docs"
-export custom_cmd="/bin/bash"
 export custom_cmd="make run"
+# export custom_cmd="make package"
+# export custom_cmd="make build"
 
+# -it 是否要进行交互
+export it_flag="-it"
+# export it_flag=""
 
 # --rm 退出后，自动删除容器
-docker run --rm  -it -p 5006:5006 -v ./:/app  -v ${md_path}:/md  my-markdown-blog $custom_cmd 
+echo "docker run --rm ${it_flag} -p 5006:5006 -v ./:/app  -v ${md_path}:/md  ${build_image_name} $custom_cmd "
+docker run --rm ${it_flag} -p 5006:5006 -v ./:/app  -v ${md_path}:/md  ${build_image_name} $custom_cmd 
+
 # docker run --rm  -it -p 5006:5006 -v ./:/app  my-markdown-blog /bin/bash 
 
 # 启动 web服务. 运行之后访问地址 http://localhost:5006

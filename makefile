@@ -17,7 +17,7 @@ bindata:
 
 .PHONY: markdown-blog
 markdown-blog:
-	go build $(RACE) -o bin/markdown-blog ./
+	CGO_ENABLED=0 go build $(RACE) -o bin/markdown-blog ./
 
 .PHONY: build-race
 build-race: enable-race build
